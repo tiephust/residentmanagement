@@ -18,7 +18,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String idResident; //CCCD
+    private String idResident;
 
     private String nameResident;
 

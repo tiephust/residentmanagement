@@ -17,9 +17,12 @@ import java.util.List;
 @Entity
 public class Resident {
     @Id
-    private Long id; //CCCD
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
+
+    private String Identifier;
 
     private String sex;
 
@@ -27,15 +30,16 @@ public class Resident {
 
     private String job;
 
-    private String email;
-
-    private String phone;
-
     private String address;
 
     private String status;
 
     private LocalDateTime creatAt;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 
     @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DeclarationForm> declarationForms;
