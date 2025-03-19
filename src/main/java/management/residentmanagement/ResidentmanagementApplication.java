@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ResidentmanagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ResidentmanagementApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ResidentmanagementApplication.class, args);
+    }
 
 }

@@ -1,4 +1,12 @@
 package management.residentmanagement.repository;
 
-public interface UserRepository {
+import management.residentmanagement.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findById(long id);
+
+    User findByUserName(String username);
+
+    User findBy
 }
