@@ -2,9 +2,8 @@ package management.residentmanagement.controller;
 
 
 import jakarta.validation.Valid;
-import management.residentmanagement.service.UserService;
-import management.residentmanagement.model.LoginRequest;
 import management.residentmanagement.model.RegisterRequest;
+import management.residentmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
         try {
-            userService.register(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getPhone());
+            userService.register(registerRequest.getUsername(), registerRequest.getPassword());
             return ResponseEntity.ok("Registration successful, please login");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

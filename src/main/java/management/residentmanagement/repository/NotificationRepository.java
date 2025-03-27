@@ -1,4 +1,4 @@
 package management.residentmanagement.repository;
 
-public class NotificationRepository {
+public interface NotificationRepository {
 }

@@ -1,7 +1,6 @@
 package management.residentmanagement.model;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -23,11 +22,11 @@ public class RegisterRequest {
     @ValidPassword
     private String password;
 
-    @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", message = "Email is not correct")
-    private String email;
-
-    @NotBlank(message = "Phone is mandatory")
-    @Pattern(regexp = "^(\\+84|0)\\d{9,10}$", message = "Phone is not correct")
-    private String phone;
+//    @NotNull
+//    @Pattern(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", message = "Email is not correct")
+//    private String email;
+//
+//    @NotBlank(message = "Phone is mandatory")
+//    @Pattern(regexp = "^(\\+84|0)\\d{9,10}$", message = "Phone is not correct")
+//    private String phone;
 }

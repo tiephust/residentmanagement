@@ -38,6 +38,7 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        // ex : {username=abc, id=1, password=123}
     }
 
     // Kiểm tra tính hợp lệ của token
@@ -49,6 +50,7 @@ public class JwtUtil {
                 && !isTokenExpired(token));
     }
 
+    // Kiểm tra token đã hết hạn chưa
     private boolean isTokenExpired(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)

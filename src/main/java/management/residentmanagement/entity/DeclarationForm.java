@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,7 +28,9 @@ public class DeclarationForm {
 
     private String name;
 
-    private LocalDateTime dateFrom;
+    private LocalDate dateFrom;
 
-    private LocalDateTime dateTo;
+    private LocalDate dateTo;
+
+    private String reason;
 }

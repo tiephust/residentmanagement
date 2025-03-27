@@ -1,4 +1,4 @@
 package management.residentmanagement.repository;
 
-public interface FeeRepository {
+public interface BillRepository {
 }

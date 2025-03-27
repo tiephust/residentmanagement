@@ -6,50 +6,50 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("fee")
-public class FeeController {
+@RequestMapping("bill")
+public class BillController {
     @GetMapping("")
     public ResponseEntity<String> home(){
-        return ResponseEntity.ok("Fee home");
+        return ResponseEntity.ok("Bill home");
     }
 
     @GetMapping("/create")
     public ResponseEntity<String> create(){
-        return ResponseEntity.ok("Fee created");
+        return ResponseEntity.ok("Bill created");
     }
 
-    @PostMapping("/create/{idFee}")
+    @PostMapping("/create/{idBill}")
     public ResponseEntity<String> create(@PathVariable String id){
-        return ResponseEntity.ok("Fee created");
+        return ResponseEntity.ok("Bill created");
     }
 
-    @GetMapping("/get/{idFee}")
+    @GetMapping("/get/{idBill}")
     public ResponseEntity<String> get(){
-        return ResponseEntity.ok("Fee retrieved");
+        return ResponseEntity.ok("Bill retrieved");
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<String> getAll(){
-        return ResponseEntity.ok("All Fees retrieved");
+        return ResponseEntity.ok("All Bills retrieved");
     }
 
-    @PutMapping("/update/{idFee}")
+    @PutMapping("/update/{idBill}")
     public ResponseEntity<String> updatet(){
-        return ResponseEntity.ok("Fee updated");
+        return ResponseEntity.ok("Bill updated");
     }
 
-    @DeleteMapping("/delete/{idFee}")
+    @DeleteMapping("/delete/{idBill}")
     public ResponseEntity<String> delete(){
-        return ResponseEntity.ok("Fee deleted");
+        return ResponseEntity.ok("Bill deleted");
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteLists(@RequestBody List<String> listFees){
-        return ResponseEntity.ok("List of Fees deleted");
+    public ResponseEntity<String> deleteLists(@RequestBody List<String> listBills){
+        return ResponseEntity.ok("List of Bills deleted");
     }
 
     @DeleteMapping("/deleteAll")
     public ResponseEntity<String> deleteAll(){
-        return ResponseEntity.ok("All Fees deleted");
+        return ResponseEntity.ok("All Bills deleted");
     }
 }

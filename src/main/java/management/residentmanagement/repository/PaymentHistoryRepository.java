@@ -1,4 +1,4 @@
 package management.residentmanagement.repository;
 
-public class PaymentHistoryRepository {
+public interface PaymentHistoryRepository {
 }

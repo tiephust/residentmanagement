@@ -2,10 +2,11 @@ package management.residentmanagement.service;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import management.residentmanagement.entity.User;
 import management.residentmanagement.exception.UserAlreadyExistsException;
 import management.residentmanagement.exception.UserNotFoundException;
-import management.residentmanagement.repository.ResidentRepository;
 import management.residentmanagement.repository.UserRepository;
 import management.residentmanagement.until.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ResidentRepository residentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -80,14 +80,11 @@ public class UserService {
         return true;
     }
 
-    public void register(String username, String rawPassword, String phone) throws IOException {
+    public void register(String username, String rawPassword) throws IOException {
         // Kiểm tra xem người dùng đã tồn tại chưa
         Optional<User> existingUserName = userRepository.findByUsername(username);
-        Optional<User> existingPhone = userRepository.findByPhone(phone);
         if (existingUserName.isPresent()) {
             throw new UserAlreadyExistsException("User already exists with username: " + username);
-        } else if (existingPhone.isPresent()) {
-            throw new UserAlreadyExistsException("User already exists with phone: " + phone);
         }
 
         // Tạo người dùng mới

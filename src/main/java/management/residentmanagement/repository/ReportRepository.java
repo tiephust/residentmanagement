@@ -1,4 +1,4 @@
 package management.residentmanagement.repository;
 
-public class ReportRepository {
+public interface ReportRepository {
 }

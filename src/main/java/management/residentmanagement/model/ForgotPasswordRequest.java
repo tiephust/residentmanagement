@@ -10,8 +10,4 @@ public class ForgotPasswordRequest {
     @Size(max = 20, message = "Username must be less than 20 characters")
     @Pattern(regexp = "^(?!\\d+$)[a-zA-Z0-9]+$", message = "Username must contain letters and cannot be all digits")
     private String username;
-
-    @NotBlank(message = "Phone is mandatory")
-    @Pattern(regexp = "^(0|\\+84)\\d{9,10}$", message = "Phone must be a valid phone number")
-    private String phone;
 }

@@ -1,7 +1,6 @@
 package management.residentmanagement.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +22,7 @@ public class User {
 
     private String password;
 
-    private String email;
-
-    private String phone;
-
-    @OneToOne(mappedBy = "user")
-    private Resident resident;
+    private long residentId;
 
     private String role;
 
