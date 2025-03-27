@@ -80,14 +80,11 @@ public class UserService {
         return true;
     }
 
-    public void register(String username, String rawPassword, String phone) throws IOException {
+    public void register(String username, String rawPassword) throws IOException {
         // Kiểm tra xem người dùng đã tồn tại chưa
         Optional<User> existingUserName = userRepository.findByUsername(username);
-        Optional<User> existingPhone = userRepository.findByPhone(phone);
         if (existingUserName.isPresent()) {
             throw new UserAlreadyExistsException("User already exists with username: " + username);
-        } else if (existingPhone.isPresent()) {
-            throw new UserAlreadyExistsException("User already exists with phone: " + phone);
         }
 
         // Tạo người dùng mới

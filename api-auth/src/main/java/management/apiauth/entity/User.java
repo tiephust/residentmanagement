@@ -22,10 +22,6 @@ public class User {
 
     private String password;
 
-    private String email;
-
-    private String phone;
-
     private long residentId;
 
     private String role;
