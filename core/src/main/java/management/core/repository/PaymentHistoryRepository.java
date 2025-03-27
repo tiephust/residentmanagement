@@ -1,4 +1,4 @@
 package management.core.repository;
 
-public class PaymentHistoryRepository {
+public interface PaymentHistoryRepository {
 }

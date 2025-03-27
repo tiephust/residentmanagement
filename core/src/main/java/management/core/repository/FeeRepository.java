@@ -1,4 +1,4 @@
 package management.core.repository;
 
-public class FeeRepository {
+public interface FeeRepository {
 }
