@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ResidentRepository extends JpaRepository<Resident, Long>{
-//    Optional<Resident> findById(long id);
-//
-//    // find all residents return list
-//    List<Resident> findAll();
-//
+    Optional<Resident> findById(long id);
+
+    // find all residents return list
+    List<Resident> findAll();
+
 //    // find resident by keyword in all fields
 //    @Query("SELECT r FROM Resident r WHERE " +
 //            "LOWER(r.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
