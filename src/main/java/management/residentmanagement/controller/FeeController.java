@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("fee")
+@RequestMapping("/fee")
 public class FeeController {
     @GetMapping("")
     public ResponseEntity<String> home(){

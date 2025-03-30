@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +24,22 @@ public class User {
 
     private String password;
 
-    private long residentId;
-
-    private String role;
+    @Enumerated(EnumType.STRING) // This is the critical annotation
+    @Column(nullable = false)
+    private Role role;
 
     private LocalDateTime createAt;
+
+    public enum Role {
+        ADMIN,
+        USER;
+
+        public static Role fromString(String role) {
+            return switch (role) {
+                case "ADMIN" -> ADMIN;
+                case "USER" -> USER;
+                default -> throw new IllegalStateException("Unexpected value: " + role);
+            };
+        }
+    }
 }

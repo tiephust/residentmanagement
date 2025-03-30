@@ -15,10 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Resident {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//@PrimaryKeyJoinColumn(name = "id")
+//@Table(name = "resident")
+public class Resident extends User{
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     private String name;
 
@@ -55,6 +57,6 @@ public class Resident {
         UPDATED,
 //        ACTIVE,
 //        INACTIVE,
-        DELETED
+        DELETED;
     }
 }

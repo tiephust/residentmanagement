@@ -1,5 +1,9 @@
 package management.residentmanagement.config;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import management.residentmanagement.entity.User;
 import management.residentmanagement.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,10 +12,14 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.io.IOException;
 
 @EnableWebSecurity
 @Configuration
@@ -23,34 +31,60 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Tắt CSRF
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/home", "/login", "/register", "/forgot-password", "otp").permitAll() // Cho phép các endpoint không cần xác thực
+                                .requestMatchers("/", "/login", "/user/register", "/forgot-password").permitAll() // Cho phép các endpoint không cần xác thực
+                                .requestMatchers("/admin/**").hasAuthority(User.Role.ADMIN.name()) // Yêu cầu quyền ADMIN cho các yêu cầu bắt đầu bằng /admin/
+                                .requestMatchers("/user/**").hasAnyAuthority(User.Role.USER.name(), User.Role.ADMIN.name()) // Yêu cầu quyền USER cho các yêu cầu bắt đầu bằng /user/
                                 .anyRequest().authenticated() // Yêu cầu xác thực với tất cả các yêu cầu khác
                 )
-                .exceptionHandling(exceptionHandling ->
-                        exceptionHandling
-                                .authenticationEntryPoint((request, response, authException) -> {
-                                    // Chuyển hướng đến /home nếu người dùng chưa đăng nhập
-                                    response.sendRedirect("/home");
-                                })
-                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                                    // Chuyển hướng đến /dashboard nếu người dùng không có quyền
-                                    response.sendRedirect("/dashboard");
-                                })
-                )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login") // Trang login tùy chỉnh
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .successHandler(authenticationSuccessHandler())
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/home")
+                        .logoutSuccessUrl("/")
                         .permitAll()
+                )
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .authenticationEntryPoint((request, response, authException) -> {
+                                    response.sendRedirect("/login");
+                                })
+                                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                    response.sendRedirect("/");
+                                })
                 );
 
-        // Thêm JwtAuthenticationFilter trước khi xử lý các yêu cầu
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                Authentication authentication) throws IOException, ServletException {
+                // Get user role and redirect accordingly
+                boolean isAdmin = authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(User.Role.ADMIN.name()));
+
+                boolean isUser = authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(User.Role.USER.name()));
+
+                if (isAdmin) {
+                    response.sendRedirect("/admin/dashboard");
+                } else if (isUser) {
+                    response.sendRedirect("/user/dashboard");
+                } else {
+                    response.sendRedirect("");
+                }
+            }
+        };
     }
 
     @Bean

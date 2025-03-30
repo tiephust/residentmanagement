@@ -4,9 +4,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import management.residentmanagement.entity.Resident;
 import management.residentmanagement.entity.User;
 import management.residentmanagement.exception.UserAlreadyExistsException;
 import management.residentmanagement.exception.UserNotFoundException;
+import management.residentmanagement.factory.UserFactory;
+import management.residentmanagement.model.RegisterRequest;
 import management.residentmanagement.repository.UserRepository;
 import management.residentmanagement.until.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,17 +40,19 @@ public class UserService {
 
     @PostConstruct
     public void initUsers() {
+        // find all user have role is admin
+        List<User> listAdmin = userRepository.findByRole(User.Role.ADMIN);
+
         // Khởi tạo người dùng admin nếu chưa tồn tại
-        if (userRepository.count() == 0) {
-//            User admin = new User();
-//            admin.setUsername("admin");
-//            admin.setPassword(passwordEncoder.encode("admin123"));
-//            admin.setIdResident("123456789");
-//            admin.setRole("ADMIN");
-//            admin.setCreateAt(LocalDateTime.now());
-//
-//            userRepository.save(admin);
-//            System.out.println("Khởi tạo người dùng admin mặc định.");
+        if (listAdmin.isEmpty()) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole(User.Role.ADMIN);
+            admin.setCreateAt(LocalDateTime.now());
+
+            userRepository.save(admin);
+            System.out.println("Khởi tạo người dùng admin mặc định.");
         }
     }
 
@@ -80,7 +86,9 @@ public class UserService {
         return true;
     }
 
-    public void register(String username, String rawPassword) throws IOException {
+    public void register(RegisterRequest registerRequest) throws IOException {
+        String username = registerRequest.getUsername();
+        String rawPassword = registerRequest.getPassword();
         // Kiểm tra xem người dùng đã tồn tại chưa
         Optional<User> existingUserName = userRepository.findByUsername(username);
         if (existingUserName.isPresent()) {
@@ -88,10 +96,13 @@ public class UserService {
         }
 
         // Tạo người dùng mới
-        User user = new User();
+        if(registerRequest.getRole() == null) {
+            registerRequest.setRole(User.Role.USER);
+        }
+        User user = UserFactory.createUser(registerRequest);
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(rawPassword));
-        user.setRole("USER");
+        user.setRole(registerRequest.getRole());
         user.setCreateAt(LocalDateTime.now());
         userRepository.save(user);
 

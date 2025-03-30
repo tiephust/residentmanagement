@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import management.residentmanagement.entity.User;
 import management.residentmanagement.validation.ValidPassword;
 
 @Setter
@@ -29,4 +30,7 @@ public class RegisterRequest {
 //    @NotBlank(message = "Phone is mandatory")
 //    @Pattern(regexp = "^(\\+84|0)\\d{9,10}$", message = "Phone is not correct")
 //    private String phone;
+
+    @NotBlank(message = "Role is mandatory")
+    private User.Role role;
 }
