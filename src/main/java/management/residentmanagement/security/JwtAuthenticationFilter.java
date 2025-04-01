@@ -33,18 +33,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Cookie cookie = WebUtils.getCookie(request, "jwt");
         if (cookie != null) {
             String jwt = cookie.getValue();
-            Map<String, Object> claims = jwtUtil.extractClaims(jwt);
+            Map<String, Object> claims = jwtUtil.extractClaimsAccessToken(jwt);
             Long id = Long.parseLong(claims.get("id").toString());
             String username = claims.get("username").toString();
             String password = claims.get("password").toString();
 
             // Kiểm tra tính hợp lệ của token
-            if (jwtUtil.isTokenValid(jwt, username, id, password)) {
-                User user = userRepository.findById(id).orElse(null);
-                if (user != null) {
-                    // Xác thực thành công, thực hiện các thao tác cần thiết
-                    System.out.println("Xác thực thành công cho user với id: " + id);
-                }
+            if (jwtUtil.isAccessTokenValid(jwt, username, id, password)) {
+                userRepository.findById(id).ifPresent(user -> System.out.println("Xác thực thành công cho user với id: " + id));
             }
         }
         System.out.println("Xác thực thất bại");
@@ -56,13 +52,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Cookie cookie = WebUtils.getCookie(request, "jwt");
         if (cookie != null) {
             String jwt = cookie.getValue();
-            Map<String, Object> claims = jwtUtil.extractClaims(jwt);
+            Map<String, Object> claims = jwtUtil.extractClaimsAccessToken(jwt);
             Long id = Long.parseLong(claims.get("id").toString());
             String username = claims.get("username").toString();
             String password = claims.get("password").toString();
 
             // Kiểm tra tính hợp lệ của token
-            if (jwtUtil.isTokenValid(jwt, username, id, password)) {
+            if (jwtUtil.isAccessTokenValid(jwt, username, id, password)) {
                 User user = userRepository.findById(id).orElse(null);
                 if (user != null) {
                     // Xác thực thành công, trả về user hiện tại

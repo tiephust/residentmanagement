@@ -30,10 +30,6 @@ public class Resident extends User{
 
     private LocalDate dateOfBirth;
 
-    private String email;
-
-    private String phone;
-
     private String job;
 
     private String address;

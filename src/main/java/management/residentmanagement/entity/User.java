@@ -28,7 +28,13 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    private String email;
+
+    private String phone;
+
     private LocalDateTime createAt;
+
+    private String refreshToken;
 
     public enum Role {
         ADMIN,
