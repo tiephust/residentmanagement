@@ -12,4 +12,4 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000") // React port
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
-}
+} 

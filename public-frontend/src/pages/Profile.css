@@ -1,0 +1,29 @@
+.profile-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-page h1 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.profile-info {
+    font-size: 1.1rem;
+}
+
+.profile-info p {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-info strong {
+    display: inline-block;
+    width: 120px;
+    color: #555;
+}

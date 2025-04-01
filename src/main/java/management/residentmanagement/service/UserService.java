@@ -56,7 +56,7 @@ public class UserService {
         }
     }
 
-    public boolean login(String username , String rawPassword) {
+    public ResponseCookie login(String username , String rawPassword) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("User not found with username or Identifier: " + username);
@@ -83,7 +83,7 @@ public class UserService {
         response.addHeader("Set-Cookie", jwtCookie.toString());
 
         System.out.println("Login success");
-        return true;
+        return jwtCookie;
     }
 
     public void register(RegisterRequest registerRequest) throws IOException {
